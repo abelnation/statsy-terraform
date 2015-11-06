@@ -4,7 +4,7 @@ E_ERROR=1
 
 if [ -z "${IMAGE_NAME}" ]; then
 	echo "Image is not built.  Run ./bin/build first"
-	exit $E_ERROR=1
+	exit ${E_ERROR}
 fi
 
 IMAGE_NAME="statsy"

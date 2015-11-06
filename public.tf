@@ -103,19 +103,26 @@ resource "aws_instance" "statsy_server" {
         key_file = "${var.aws_key_file_path}"
     }
 
+    provisioner "remote-exec" {
+        inline = [
+            "mkdir -p /tmp/docker",
+        ]
+    }
+
     provisioner "file" {
-        source = "./files/"
+        source = "files/"
         destination = "/tmp/docker"
     }
 
     provisioner "remote-exec" {
         inline = [
             "sudo yum update -y",
+            "sudo yum install -y git",
             "sudo yum install -y docker",
             "sudo service docker start",
-            "sudo mv /tmp/docker /usr/local/src/",
-            "sudo /usr/local/src/docker/build",
-            "sudo /usr/local/src/docker/start"
+            "sudo chmod u+x /tmp/docker/build /tmp/docker/start",
+            "sudo /tmp/docker/build ${var.statsy_docker_url}",
+            "sudo /tmp/docker/start"
         ]
     }
 

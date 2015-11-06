@@ -87,7 +87,7 @@ resource "aws_security_group" "web" {
     }
 }
 
-resource "aws_instance" "statsy" {
+resource "aws_instance" "statsy_server" {
     depends_on = ["aws_security_group.web", "aws_subnet.public"]
 
     ami = "${lookup(var.aws_amis, var.aws_region)}"

@@ -105,7 +105,7 @@ resource "aws_instance" "statsy_server" {
 
     provisioner "file" {
         source = "./files/"
-        destination = "/usr/local/src/docker"
+        destination = "/tmp/docker"
     }
 
     provisioner "remote-exec" {
@@ -113,8 +113,9 @@ resource "aws_instance" "statsy_server" {
             "sudo yum update -y",
             "sudo yum install -y docker",
             "sudo service docker start",
-            "/usr/local/src/docker/build",
-            "/usr/local/src/docker/start"
+            "sudo mv /tmp/docker /usr/local/src/",
+            "sudo /usr/local/src/docker/build",
+            "sudo /usr/local/src/docker/start"
         ]
     }
 
